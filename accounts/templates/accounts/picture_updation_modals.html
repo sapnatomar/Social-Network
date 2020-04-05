@@ -1,0 +1,78 @@
+{% if user == request.user %}
+<!-- Add Post picture model -->
+<div class="modal fade" id="add-post-picture-{{user.pk}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header pt-1 pb-1">
+                <h5 class="modal-title" id="exampleModalLongTitle">Add a Photo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                {{form.post_image}}
+            </div>
+            <div class="modal-footer pt-1 pb-1">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Continue</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Display Post picture model -->
+{% if post.post_image %}
+<div class="modal fade" id="display-post-picture-{{post.pk}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header pt-0 pb-0 border-0">
+                <h4 class="modal-title" id="image-gallery-title"></h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span>
+                </button>
+            </div>
+            <div class="modal-body pb-3 pr-0 pl-0 pt-0">
+                <img id="image-gallery-image" class="img-responsive col-md-12" src="{{ post.post_image.url }}" alt="{{post.user.get_full_name}}">
+            </div>
+            
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Display Profile picture model -->
+<div class="modal fade" id="display-profile-pic-{{user.pk}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header pt-0 pb-0 border-0">
+                <h4 class="modal-title" id="image-gallery-title"></h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span>
+                </button>
+            </div>
+            <div class="modal-body pb-3 pr-0 pl-0 pt-0">
+                <img id="image-gallery-image" class="img-responsive col-md-12" src="{{ user.userprofile.image.url }}" alt="{{user.get_full_name}}">
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if user == request.user %}
+<!-- Change Profile picture model -->
+<div class="modal fade" id="change-profile-pic-{{user.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header pt-1 pb-1">
+                <h5 class="modal-title" id="exampleModalLongTitle">Change Profile Picture</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                {{p_form.image}}
+            </div>
+            <div class="modal-footer pt-1 pb-1">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Continue</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}

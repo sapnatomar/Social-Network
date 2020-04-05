@@ -1,0 +1,280 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load friendshiptags %}
+
+{% block head %}
+<title>Instabook-Home</title>
+{% endblock %}
+
+{% block body %}
+
+<div class="row justify-content-center">
+	<div class="col-xl-6 col-md-8 px-2">
+		<div class="row" id="post-here">
+			<div class="col-3 pr-0 pl-4">
+				<div class="profile-thumbnail" style="background-image:url('{{user.userprofile.image.url}}')"></div>
+			</div>
+			<div class="col-9 pr-4">
+				<form method="post" action="{% url 'home:home' %}" class="media-body"  enctype="multipart/form-data">
+					<div class="card border-right-0 bg-silver mb-4">
+
+						{% csrf_token %}
+						{{ form.post }}
+
+						<div class="form-row">
+							<div class="form-group col-12 my-1 px-2">
+								<button class="float-right btn-sm btn btn-info mx-1" type="submit"> Post </button>
+								<button class="float-right btn-sm btn btn-info mx-1" type="reset"> Reset </button>
+								<a data-toggle="modal" data-target="#add-post-picture-{{user.pk}}">
+									<button type="button" class="float-left btn btn-info btn-sm mx-1">Photo <i class="fas fa-camera"></i></button>
+								</a>
+							</div>
+						</div>
+
+					{% include 'extras/picture_updation_modals.html' %}
+
+					</div>
+				</form>
+			</div>
+		</div>
+
+		{% for post in posts %}
+		{% if post.user in me.friends or post.user == request.user %}
+			{% include 'posts/list_posts.html' %}
+			{% include 'extras/post_likes_modal.html' %}
+		{% endif %}
+		{% endfor %}
+
+		{% if posts.count == 0 %}
+		<div class="card p-3">
+			<p>
+				Hello, {{user.first_name}}!<br/>
+				Your feed is empty. Follow people to see their posts, photos and more. If you are having any trouble with 'How to use Instabook', readline the guideline <a href="#">here</a>. Happy Instabook time.... blah blah blah.
+			</p>
+		</div>
+		{% endif %}
+
+
+        {% if posts.has_next or posts.has_previous %}
+		<ul class="pagination justify-content-center mb-4">
+
+          {% if posts.has_previous %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ posts.previous_page_number }}">&larr; Previous</a>
+          </li>
+          {% else %}
+          <li class="page-item disabled">
+            <a class="page-link" href="#">&larr; Previous</a>
+          </li>
+          {% endif %}
+
+          {% if posts.has_next %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ posts.next_page_number }}">Next &rarr;</a>
+          </li>
+          {% else %}
+          <li class="page-item disabled">
+            <a class="page-link" href="#">Next &rarr;</a>
+          </li>
+          {% endif %}
+
+        </ul>
+        {% endif %}
+
+
+	</div><!-- /.col -->
+
+	<div class="col-lg-4">
+
+		<div class="media mt-2 mb-3">
+			<img src="{{request.user.userprofile.image.url}}" alt="" class="rounded-circle mini-profile-pic">
+			<div class="media-body">
+				<div class="div-inline line-height-12">
+					<a class="fw-55" href="{% url 'userprofile:view_profile' %}">
+						<span style="color:#222">{{request.user.username|truncatechars:18}}</span>
+					</a><br>
+					<small class="text-muted">
+						{{request.user.get_full_name}}
+					</small>
+				</div>
+			</div>
+		</div>
+
+		
+		<div class="card mb-4 network ">
+			<div class="card-body">
+				<a class="instabook-color small-text" id="switch-requests"> See Sent Requests </a>
+
+				<!-- view recieved requests -->
+				<div id="recieved-requests">
+					<h4 class="lobster instabook-color mb-3">Recieved Friend Requests {% if me.fr_count %}&#5867; {{me.fr_count}}{% endif %}</h4>
+
+					<ul class="list-unstyled mb-0">
+						{% for user in me.friend_requests %}
+						<li class="mb-1">
+							<div class="media">
+								<img src="{{user.userprofile.image.url}}" alt="" class="rounded-circle mini-profile-pic">
+								<div class="media-body">
+									<div class="div-inline line-height-12">
+										<a class="fw-55" href="{% url 'userprofile:view_profile_with_pk' pk=user.pk %}">
+											<span style="color:#222">{{user.username|truncatechars:18}}</span>
+										</a><br>
+										<small class="text-muted">
+											{{user.get_full_name}}
+										</small>
+									</div>
+									<div class="div-inline float-right">
+										<a class="fw-55 float-right ml-1" href="{% url 'friends:reject-request' id=user.id  %}"><i class="far fa-trash-alt"></i></a>
+										<a class="fw-55 float-right" href="{% url 'friends:accept-request' id=user.id  %}">Accept</a>
+									</div>
+								</div>
+							</div>
+						</li>
+					    {% endfor %}
+					</ul>
+
+					{% if not me.friend_requests %}
+						<p style="padding: 5px 10px; margin: 0.5rem 0rem">No friend requests</p>
+					{% endif %}
+				</div>
+				<!-- end view recieved requests div-->
+
+				<!-- view-sent requests -->
+				<div id="sent-requests">
+					<h4 class="lobster instabook-color mb-3">Sent Friend Requests</h4>
+
+					<ul class="list-unstyled mb-0">
+						{% for user in me.sent_requests %}
+						<li class="mb-1">
+							<div class="media">
+								<img src="{{user.userprofile.image.url}}" alt="" class="rounded-circle mini-profile-pic">
+								<div class="media-body">
+									<div class="div-inline line-height-12">
+										<a class="fw-55" href="{% url 'userprofile:view_profile_with_pk' pk=user.pk %}">
+											<span style="color:#222">{{user.username|truncatechars:18}}</span>
+										</a><br>
+										<small class="text-muted">
+											{{user.get_full_name}}
+										</small>
+									</div>
+									<div class="div-inline float-right">
+										<a class="fw-55 float-right link-color" data-toggle="modal" data-target="#cancel_request_{{user.id}}">Requested</a>
+									</div>
+								</div>
+							</div>
+							{% include 'extras/friend_modals.html' %}
+						</li>
+					    {% endfor %}
+					</ul>
+
+					{% if not me.sent_requests %}
+						<p style="padding: 5px 10px; margin: 0.5rem 0rem">No sent requests</p>
+					{% endif %}
+				</div>
+				<!-- end view sent requests div-->
+
+			</div>
+		</div>
+
+		<div class="card mb-4 network">
+			<div class="card-body">
+				<h4 class="lobster instabook-color mb-3">Suggestions</h4>
+
+				{% if users %}
+				<ul class="list-unstyled mb-0">
+					{% for user in users %}
+					{% if user not in me.friends and user not in me.friend_requests and user not in me.sent_requests and user not in me.blocks and request.user not in user.userprofile.blocks %}
+					<li class="mb-1">
+						<div class="media">
+							<img src="{{user.userprofile.image.url}}" alt="" class="rounded-circle mini-profile-pic">
+							<div class="media-body">
+								<div class="div-inline line-height-12">
+									<a class="fw-55" href="{% url 'userprofile:view_profile_with_pk' pk=user.pk %}">
+										<span style="color:#222">{{user.username|truncatechars:18}}</span>
+									</a><br>
+									<small class="text-muted">
+										{{user.get_full_name}}
+									</small>
+								</div>
+								<div class="div-inline float-right">
+									<a class="fw-55 float-right link-color" data-toggle="modal" data-target="#send_request_{{user.id}}">Request</a>
+								</div>
+							</div>
+						</div>
+						{% include 'extras/friend_modals.html' %}
+					</li>
+					{% endif %}
+				    {% endfor %}
+				</ul>
+				{% endif %}
+
+			</div>
+		</div>
+
+		
+
+		<div class="card mb-4 network">
+			<div class="card-body">
+				<h4 class="lobster instabook-color mb-3">Friends {% if me.friends_count %}&#5867; {{me.friends_count}}{% endif %}</h4>
+
+				{% if me.friends %}
+				<ul class="list-unstyled mb-0">
+					{% for user in me.friends %}
+					<li class="mb-1">
+
+						<div class="media">
+							<img src="{{user.userprofile.image.url}}" alt="" class="rounded-circle mini-profile-pic">
+							<div class="media-body">
+								<div class="div-inline line-height-12">
+									<a class="fw-55" href="{% url 'userprofile:view_profile_with_pk' pk=user.pk %}">
+										<span style="color:#222">{{user.username|truncatechars:18}}</span>
+									</a><br>
+									<small class="text-muted">
+										{{user.get_full_name}}
+									</small>
+								</div>
+								<div class="div-inline float-right">
+									<a class="fw-55 float-right link-color" data-toggle="modal" data-target="#remove_friend_{{user.id}}">Friends <i class="very-small-icon fas fa-check"></i></a>
+								</div>
+							</div>
+						</div>
+						{% include 'extras/friend_modals.html' %}
+					</li>
+				    {% endfor %}
+				</ul>
+				{% endif %}
+
+			{% if not me.friends_count %}
+				<p style="padding: 5px 10px; margin: 0.5rem 0rem">No friends to display</p>
+			{% endif %}
+
+			</div>
+
+		</div>
+
+	</div>
+</div><!-- /.row -->
+
+
+{% endblock %}
+				  
+
+{% block js_script %}
+
+window.onload = function(){ 
+	var switch_requests = document.querySelector('#switch-requests');
+	switch_requests.onclick = function() {
+	if (switch_requests.innerHTML == "See Sent Requests") {
+		document.querySelector('#recieved-requests').style.display = 'none';
+		document.querySelector('#sent-requests').style.display = 'block';
+		switch_requests.innerHTML = "See Recieved Requests";
+		}
+	else {
+		document.querySelector('#sent-requests').style.display = 'none';
+		document.querySelector('#recieved-requests').style.display = 'block';
+		switch_requests.innerHTML = "See Sent Requests";
+		}
+	}
+};
+
+ {% endblock %}  

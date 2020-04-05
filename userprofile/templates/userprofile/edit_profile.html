@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block head %}
+<title>Edit Profile</title>
+{% endblock %}
+
+{% block body %}
+
+<div class="row justify-content-center">
+	<div class="col-md-6">
+		<div>
+			<div class="card-body">
+				<a class="thumbnail" data-image-id="" data-toggle="modal" data-title="{{user.first_name}}'s photo"
+                   data-image="{{user.userprofile.image.url}}"
+                   data-target="#display-profile-pic-{{user.pk}}">
+					<img class="mx-auto d-block profile-page-profile-pic" src="{{ user.userprofile.image.url }}" alt="{{user.first_name}}">
+				</a>
+			</div>
+			<form method="POST" enctype="multipart/form-data">
+				{% csrf_token %}
+				<div class="small-text mb-4 text-center">
+					
+					<a class="thumbnail" data-image-id="" data-toggle="modal" data-target="#change-profile-pic-{{user.pk}}">
+	                   <button class="btn btn-info btn-sm">Change Photo <i class="fas fa-camera"></i></button>
+	               </a>
+
+				</div>
+
+				{% include 'extras/picture_updation_modals.html' %}
+
+				<fieldset class="form-group">
+					<legend class="border-bottom mb-4">Update Profile Info</legend>
+						{{u_form.username|as_crispy_field}}
+						<div class="form-row">
+							<div class="form-group col-md-6 mb-0">
+								{{u_form.first_name|as_crispy_field}}
+							</div>
+							<div class="form-group col-md-6 mb-0">
+								{{u_form.last_name|as_crispy_field}}
+							</div>
+						</div>
+						{{u_form.email|as_crispy_field}}
+						{{p_form.description|as_crispy_field}}
+						<div class="form-row">
+							<div class="form-group col-md-8 mb-0">
+								{{p_form.education|as_crispy_field}}
+							</div>
+							<div class="form-group col-md-4 mb-0">
+								{{p_form.graduated|as_crispy_field}}
+							</div>
+						</div>
+						<div class="form-row">
+							<div class="form-group col-md-8 mb-0">
+								{{p_form.company|as_crispy_field}}
+							</div>
+							<div class="form-group col-md-4 mb-0">
+								{{p_form.still_work_here|as_crispy_field}}
+							</div>
+						</div>
+						<div class="form-row">
+							<div class="form-group col-md-6 mb-0">
+								{{p_form.hometown|as_crispy_field}}
+							</div>
+							<div class="form-group col-md-6 mb-0">
+								{{p_form.current_city|as_crispy_field}}
+							</div>
+						</div>
+						<div class="form-row">
+							<div class="form-group col-md-6 mb-0">
+								{{p_form.gender|as_crispy_field}}
+							</div>
+						</div>
+
+				</fieldset>
+				<div class="py-3">
+					<button class="btn btn-outline-info" type="submit">Update</button>
+					<a href="{% url 'userprofile:view_profile' %}">
+						<button class="btn btn-outline-info" type="button">Cancel</button>
+					</a>
+				</div>
+				<div class="border-top pt-3">
+					<small class="text-muted">
+						*Do fill the the mandatory fields. <a href="{% url 'userprofile:view_profile' %}">Click here</a> to head to Profile.
+					</small>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<br><br><br>
+
+
+{% endblock %}  

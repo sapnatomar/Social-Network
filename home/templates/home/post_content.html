@@ -1,0 +1,32 @@
+<div class="card-body px-4 pb-1">
+	<!--{% if post.post_image or post.post_word_count > 50 %}-->
+	<p class="card-text line-height-12 px-2">
+	<!--{% else %}
+	<p class="card-text line-height-12 big-font px-3">
+	{% endif %}-->
+
+		{% if 'full_post' not in request.path %}
+		    {{post.post|linebreaksbr|truncatewords:50}}
+			    {% if post.post_word_count > 50 %}
+			    <a href="{% url 'home:view_post' pk=post.pk %}">See more</a>
+			    {% endif %}
+		    {% else %}
+		    {{post.post|linebreaksbr}}
+	    {% endif %}
+	</p>
+
+</div>
+{% if post.post_image %}
+	
+	{% if 'full_post' not in request.path %}
+	<a class="card-text" href="{% url 'home:view_post' pk=post.pk %}">
+	{% else %}
+	<a class="card-text" data-image-id="" data-toggle="modal" data-title="{{post.user}}'s photo"
+	               data-image="{{post.post_image.url}}"
+	               data-target="#display-post-picture-{{post.pk}}">
+	{% endif %}
+	    <img class="mx-auto d-block post-pic" src="{{ post.post_image.url }}" alt="{{post.user.get_full_name}}">
+	</a>
+{% endif %}
+
+{% include 'accounts/picture_updation_modals.html' %}

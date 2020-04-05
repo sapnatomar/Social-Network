@@ -1,0 +1,59 @@
+<div class="card mb-4">
+	<div class="media px-3 pt-3">
+		<img src="{{post.user.userprofile.image.url}}" alt="" class="rounded-circle mini-profile-pic">
+		<div class="media-body">
+				<div class="div-inline line-height-12">
+					<a class="post-header-name" href="{% url 'accounts:view_profile_with_pk' pk=user.pk %}">
+						{{post.user.get_full_name}}
+					</a><br>
+					<small class="text-muted">
+
+						{{post.created|date:"F d, Y"}} at {{post.created|date:"H:i"}}
+						{% if post.updated|date:"Y,m,d,H,i" != post.created|date:"Y,m,d,H,i" %}
+						| Edited
+						{% endif %}
+
+					</small>
+				</div>
+
+				{% include 'home/post_options.html' %}
+
+		</div>
+	</div>
+
+		{% include 'home/post_content.html' %}
+
+	<div class="card-footer">
+		<button class="custom-button instabook-color">
+			<i class="far fa-thumbs-up"></i>
+		</button>
+		
+		<a href="{% url 'home:view_post' pk=post.pk %}#comments-section">
+			<button class="custom-button instabook-color">
+				<i class="far fa-comment"></i>
+			</button>
+		</a>
+		
+		<!--<a data-toggle="modal" data-target="#sharepostmodal_{{post.pk}}">-->
+			<button class="custom-button instabook-color">
+				<i class="far fa-share-square"></i>
+			</button>
+		<!--</a>-->
+	</div>
+
+	<div class="px-4 mb-2">
+		<span class="instabook-color post-header-name">256 Likes</span>
+		{% if post.comments.count %}
+		<a class="float-right post-header-name" href="{% url 'home:view_post' pk=post.pk %}#comments-section">
+			<span class="instabook-color">{{post.comments.count}} 
+				{% if post.comments.count == 1 %}
+				comment
+				{% else %}
+				comments
+				{% endif %}
+			</span>
+		</a>
+		{% endif %}
+	</div>
+
+</div>

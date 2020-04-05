@@ -1,0 +1,175 @@
+{% extends 'base.html' %}
+
+{% block head %}
+	<title>{{user.username}}</title>
+{% endblock %}
+
+{% block body %}
+
+<div class="row justify-content-center">
+	
+	<div class="col-lg-4 col-md-4">
+
+		{% if user != request.user and user in me.friend_requests %}
+		<div class="text-center mt-1 mb-3">
+			<p class="instabook-color mb-1"> {{user.username}} wants to be friends with you.</p>
+			<a href="{% url 'friends:accept-request' id=user.id  %}">
+				<button class="btn btn-default btn-sm px-3"><span class="fw-55">Confirm Request</span></button>
+			</a>
+			<a href="{% url 'friends:reject-request' id=user.id  %}">
+				<button class="btn btn-default btn-sm px-3"><span class="fw-55">Reject</span></button>
+			</a>
+		</div>
+		{% endif %}
+
+		<a class="thumbnail" data-image-id="" data-toggle="modal" data-title="{{user.first_name}}'s photo"
+                   data-image="{{user.userprofile.image.url}}"
+                   data-target="#display-profile-pic-{{user.pk}}">
+			<img class="mx-auto mb-3 mt-2 d-block profile-page-profile-pic" src="{{ user.userprofile.image.url }}" alt="{{user.get_full_name}}">
+		</a>
+
+		{% if user != request.user %}
+		<div class="text-center mb-2">
+			{% if user in friends %}
+			<a data-toggle="modal" data-target="#remove_friend_{{user.id}}">
+				<button class="btn btn-default btn-sm px-2"><span class="fw-55">Friends </span><i class="very-small-icon fas fa-check"></i></button>
+			</a>
+		
+			{% elif user in me.sent_requests %}
+			<a data-toggle="modal" data-target="#cancel_request_{{user.id}}">
+				<button class="btn btn-default btn-sm px-3"><span class="fw-55">Requested</span></button>
+			</a>
+
+			{% elif user not in me.friend_requests %}
+			<a data-toggle="modal" data-target="#send_request_{{user.id}}">
+				<button class="btn btn-primary btn-sm px-3"><span class="fw-55">Request</span></button>
+			</a>
+			{% endif %}
+
+			<div class="div-inline">
+				<a data-toggle="modal" data-target="#profile_actions_{{user.id}}">
+					<i class="fas fa-ellipsis-v px-1"></i>
+				</a>
+			</div>
+
+		</div>
+
+		{% endif %}
+
+		<div class="card mb-3">
+			<div class="card-body">
+				<h4 class="lobster mb-0">{{user.username}}{% if user == request.user %}<a data-toggle="modal" data-target="#settings"><span class="icon"><i class="fas fa-cog"></i></span></a>{% endif %}</h4>
+
+				<p class="instabook-color">{%if user.first_name %}{{user.get_full_name}}{% else %}Instabook User{% endif %}</p>
+				<p>{{user.userprofile.description}}</p>
+
+				<ul class="list-unstyled mb-0">
+					{% if user.userprofile.education %}
+					<li class="small-text">
+						{% if user.userprofile.graduated %}
+						Studied {% else %}
+						Studies {% endif %}
+						at <span class="link-color lobster">{{user.userprofile.education}}</span>
+					</li>
+					{% endif %}
+
+					{% if user.userprofile.company %}
+					<li class="small-text">
+						{% if user.userprofile.still_work_here %}
+						Works {% else %}
+						Worked {% endif %}
+						at <span class="link-color lobster">{{user.userprofile.company}}</span>
+					</li>
+					{% endif %}
+
+					{% if user.userprofile.hometown %}
+					<li class="small-text">
+						From <span class="link-color">{{user.userprofile.hometown}}</span>
+					</li>
+					{% endif %}
+
+					{% if user.userprofile.current_city %}
+					<li class="small-text">
+						Lives in <span class="link-color">{{user.userprofile.current_city}}</span>
+					</li>
+					{% endif %}
+
+					{% if user.email %}
+					<li class="small-text">
+						Mail me <span class="link-color">{{user.email}}</span>
+					</li>
+					{% endif %}
+
+					{% if user.userprofile.website %}
+					<li class="small-text">
+						Check this out <span class="link-color">
+							<a href="{{user.userprofile.website}}">{{user.userprofile.website}}</a>
+						</span>
+					</li>
+					{% endif %}
+
+					{% if user.userprofile.gender %}
+					<li class="small-text">
+						Gender <span class="link-color">
+							{{user.userprofile.gender}}
+						</span>
+					</li>
+					{% endif %}
+
+				</ul>
+
+			</div>
+		</div>
+
+	</div>
+
+	{% if user == request.user %}
+	<!-- Settings model -->
+	<div class="modal fade text-center" id="settings" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	    <div class="modal-dialog modal-dialog-centered" role="document">
+	        <div class="modal-content" style="width: 80%">
+	            <div class="modal-body text-center">
+	                <p class="border-bottom"><a style="color:inherit;" href="{% url 'userprofile:edit_profile' %}">Edit Profile</a></p>
+	                <p class="border-bottom"><a style="color:inherit;" href="{% url 'userprofile:change_password' %}">Change Password</a></p>
+	                <p class="border-bottom">Privacy & Security</p>
+	                <p class="border-bottom mb-0"><a data-dismiss="modal">Cancel</a></p>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	{% endif %}
+
+	{% include 'extras/friend_modals.html' %}
+	{% include 'extras/post_likes_modal.html' %}
+	{% include 'extras/picture_updation_modals.html' %}
+	{% include 'userprofile/profile-actions.html' %}
+
+	{% if user == request.user or request.user in user.userprofile.friends %}
+	<div class="col-lg-6 col-md-8 px-2 mt-2">
+
+		{% if not posts %}
+
+		<div class="card mb-4">
+			<div class="card-body">
+				<p class="small-text">
+				{% if user == request.user %}
+					You haven't posted anything yet! <br>
+					Why not create one? <a href="{% url 'home:home' %}">Click here</a> to write your first post.
+				{% else %}
+					No posts to display.
+				{% endif %}
+				</p>
+
+			</div>
+		</div>
+
+		{% else %}
+			{% for post in posts %}
+				{% include "posts/list_posts.html" %}
+			{% endfor %}
+		{% endif %}
+	</div>
+	{% endif %}
+</div>
+
+{% endblock %}

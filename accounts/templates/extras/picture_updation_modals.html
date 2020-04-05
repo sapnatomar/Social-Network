@@ -1,0 +1,79 @@
+{% if user == request.user %}
+<!-- Add Post picture model -->
+<div class="modal fade" id="add-post-picture-{{user.pk}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content text-center">
+            <div class="modal-body py-4">
+                <h5 class="mb-2">Add a photo</h5>
+                {{form.post_image}}
+            </div>
+            <div class="modal-footer py-2">
+                <div class="row w-100">
+                    <div class="col-12">
+                        <a data-dismiss="modal">Continue</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+
+{% if post.post_image %}
+<!-- Display Post picture model -->
+<div class="modal fade" id="display-post-picture-{{post.pk}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header py-0 border-0">
+                <h4 class="modal-title" id="image-gallery-title"></h4>
+                <a class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </a>
+            </div>
+            <div class="modal-body pb-3 px-0 pt-0">
+                <img id="image-gallery-image" class="img-responsive col-md-12" src="{{ post.post_image.url }}" alt="{{post.user.get_full_name}}">
+            </div>
+            
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Display Profile picture model -->
+<div class="modal fade" id="display-profile-pic-{{user.pk}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header py-0 border-0">
+                <h4 class="modal-title" id="image-gallery-title"></h4>
+                <a class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </a>
+            </div>
+            <div class="modal-body pb-3 px-0 pt-0">
+                <img id="image-gallery-image" class="img-responsive col-md-12" src="{{ user.userprofile.image.url }}" alt="{{user.get_full_name}}">
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if user == request.user %}
+<!-- Change Profile picture model -->
+<div class="modal fade" id="change-profile-pic-{{user.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content text-center">
+            <div class="modal-body py-4">
+                <h5 class="mb-2">Change Profile Picture</h5>
+                {{p_form.image}}
+            </div>
+            <div class="modal-footer py-2">
+                <div class="row w-100">
+                    <div class="col-12">
+                        <a data-dismiss="modal">Continue</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}

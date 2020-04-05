@@ -1,0 +1,197 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load custom_filters %}
+
+{% block head %}
+<title>{{post.user}}'s post</title>
+{% endblock %}
+
+{% block body %}
+
+<div class="row justify-content-center">
+	<div class="col-md-6">
+		<div class="card mb-3">
+			<div class="media px-3 pt-3">
+				<img src="{{post.user.userprofile.image.url}}" alt="post.user.get_full_name" class="rounded-circle mini-profile-pic">
+				<div class="media-body">
+					<div class="div-inline line-height-12">
+						<a class="post-header-name" href="{% url 'accounts:view_profile_with_pk' pk=user.pk %}">
+							{{post.user.get_full_name}}
+						</a><br>
+						<small class="text-muted">
+
+							{{post.created|date:"F d, Y"}} at {{post.created|date:"H:i"}}
+							{% if post.updated|date:"Y,m,d,H,i" != post.created|date:"Y,m,d,H,i" %}
+							| Edited
+							{% endif %}
+
+						</small>
+					</div>
+					{% if post.user == request.user %}
+					{% include 'home/post_options.html' %}
+					{% endif %}
+				</div>
+			</div>
+
+			{% include 'home/post_content.html' %}
+
+			<div class="card-footer">
+				<button class="custom-button instabook-color">
+					<i class="far fa-thumbs-up"></i>
+				</button>
+			
+				<button class="custom-button instabook-color">
+					<i class="far fa-comment"></i>
+				</button>
+			
+				<button class="custom-button instabook-color">
+					<!--<a data-toggle="modal" data-target="#sharepostmodal_{{post.pk}}">-->
+					<i class="far fa-share-square"></i>
+					<!--</a>-->
+				</button>
+			</div>
+
+			<div id="comments-section" class="px-4 mb-2">
+				<span class="instabook-color post-header-name">256 Likes</span>
+				{% if post.comments.count %}
+				<a id="all-comments-btn" class="float-right instabook-color post-header-name" href="#comments-section">
+					<span class="instabook-color">{{post.comments.count}} 
+						{% if post.comments.count == 1 %}
+						comment
+						{% else %}
+						comments
+						{% endif %}
+					</span>
+				</a>
+				{% endif %}
+			</div>
+		</div>
+
+			<div class="card-body px-3">
+				
+				<div class="media">
+					<img src="{{request.user.userprofile.image.url}}" alt="" class="rounded-circle mini-mini-profile-pic">
+					<div class="media-body">
+						<form method="POST" action="{% url 'home:view_post' pk=post.pk %}"> 
+							{% csrf_token %}
+							<div class="form-row">
+								<div class="col-10 mb-0">
+									{{ comment_form|crispy }}
+								</div>
+								<div class="col-2 mb-0 px-0 text-center">
+									<input type='submit' value='Comment' class='link-color custom-button lobster'>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+				
+			</div>
+
+
+			<div class="card-body px-4 pt-0">
+				{% for comment in comments %}
+				<blockquote class="mb-1">
+					<div class="media">
+						<img src="{{comment.user.userprofile.image.url}}" alt="" class="rounded-circle mini-mini-profile-pic">
+						<div class="media-body">
+
+							<a href="{% url 'accounts:view_profile_with_pk' pk=comment.user.pk %}">
+								{{comment.user.get_full_name}}
+							</a>
+							<span> {{comment.content}} </span>
+							<div id="comment-options">
+								<small class="text-muted">
+									{{comment.timestamp|timesince|upto:','}} 
+								</small> 
+								<small class="text-muted">
+									| <a class="comment-reply-btn" href="#">Reply</a> 
+								</small>
+								
+								{% if post.user == request.user  or comment.user == request.user %}
+								<small class="text-muted">
+								| <a class="link-color" data-toggle="modal" data-target="#deletecommentmodal_{{comment.id}}">
+									Delete
+								</a> 
+								</small>
+								{% endif %}
+								<small class="text-muted">
+									{% if comment.children.count %}
+									| <a href="{{comment.get_absolute_url}}">Thread</a>
+									{% endif %}
+								</small>
+							</div>
+
+							<div class="comment-reply">
+								<div id="replies" class="card-body px-2 pb-2">
+									<div class="media">
+										<img src="{{request.user.userprofile.image.url}}" alt="" class="rounded-circle mini-mini-profile-pic">
+										<div class="media-body">
+											<form method="POST" action="{% url 'home:view_post' pk=post.pk %}"> 
+												{% csrf_token %}
+												<div class="form-row">
+													<div class="col-10 mb-0">
+														{{ comment_form|crispy }}
+														<input type='hidden' name='parent_id' value='{{ comment.id }}'>
+													</div>
+													<div class="col-2 mb-0 px-0 text-center">
+														<input type='submit' value='Reply' class='link-color custom-button lobster'>
+													</div>
+												</div>
+											</form>
+											{% if comment.children.count %}
+												<div class="mb-2">
+													<small class="text-muted">
+														<a href="#" class="all-replies-btn">View all replies</a> ({{comment.children.count}})
+													</small>
+												</div>
+											{% endif %}
+										</div>
+									</div>
+								</div>
+
+								<div class="all-replies">
+									{% for child_comment in comment.children %}
+									<blockquote>
+										<div class="media">
+											<img src="{{comment.user.userprofile.image.url}}" alt="" class="rounded-circle mini-mini-profile-pic">
+											<div class="media-body">
+												<a href="{% url 'accounts:view_profile_with_pk' pk=comment.user.pk %}">
+													{{child_comment.user.get_full_name}}
+												</a>
+												<span> {{child_comment.content}} </span>
+												<div>
+													<small class="text-muted">
+														{{child_comment.timestamp|timesince|upto:','}}
+													</small> 
+													<small class="text-muted">
+														| <a class="comment-reply-btn" href="#">Reply</a>
+													</small>
+													
+													{% if post.user == request.user  or child_comment.user == request.user %}
+													<small class="text-muted">
+														| <a class="link-color" data-toggle="modal" data-target="#deletereplymodal_{{child_comment.id}}">
+															Delete
+														</a>
+													</small>
+													{% endif %}
+												</div>
+											</div>
+										</div>
+										{% include 'home/delete_reply_modal.html' %}
+									</blockquote>
+									{% endfor %}
+								</div>
+							</div>
+						</div>
+					</div>
+					{% include 'home/delete_comment_modal.html' %}
+				</blockquote>
+				{% endfor %}
+			</div>
+
+		
+	</div>
+</div>
+
+{% endblock %}

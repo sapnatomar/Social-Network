@@ -1,0 +1,21 @@
+{% for friend in friend_list %}
+<div class="card-body">
+	<ul class="list-unstyled mb-0">
+		<li>
+				<img src="{{friend.userprofile.image.url}}" alt="..." class="rounded-circle mini-profile-pic">
+				<a href="{% url 'accounts:view_profile_with_pk' pk=friend.pk %}">
+					@{{friend.username}}
+				</a>
+				<a href="{% url 'home:change_friend' operation='remove' pk=friend.pk %}">
+					<button type="button" class="margin-left btn btn-outline-info btn-sm float-right">Unfollow</button>
+				</a>
+		</li>
+	</ul>
+</div>
+{% endfor %}
+
+{% if not following %}
+<div>
+	<p style="padding: 5px 10px; margin: 0.5rem 0rem">You do not follow anyone.</p>
+</div>
+{% endif %}

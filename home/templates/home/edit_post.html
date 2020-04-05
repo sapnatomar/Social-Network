@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block head %}
+<title>Home</title>
+{% endblock %}
+
+{% block body %}
+
+
+<div class="row justify-content-center">
+	<div class="col-md-6 media">
+		<img src="{{post.user.userprofile.image.url}}" alt="..." class="rounded-circle mini-profile-pic">
+		<div class="media-body">
+			<form method="POST" enctype="multipart/form-data">
+				{% csrf_token %}
+
+				<fieldset class="form-group">
+					<legend class="border-bottom mb-2">Edit Post</legend>
+					
+					{% if post.post_image %}
+					<a class="card-text" data-image-id="" data-toggle="modal" data-title="{{post.user.first_name}}'s photo"
+					               data-image="{{post.post_image.url}}"
+					               data-target="#display-post-picture-{{post.pk}}">
+					    <img class="mx-auto d-block post-pic" src="{{ post.post_image.url }}" alt="{{post.user.get_full_name}}">
+					</a>
+					{% endif %}
+
+					<a data-toggle="modal" data-target="#add-post-picture-{{user.pk}}">
+						<button type="button" class="m-2 btn btn-info btn-sm">
+							{% if post.post_image %}
+							Change Photo 
+							{% else %}
+							Add Photo 
+							{% endif %}
+							<i class="fas fa-camera"></i>
+						</button>
+					</a>
+
+					{{ form.post }}
+
+					{% include 'accounts/picture_updation_modals.html' %}
+				</fieldset>
+
+				<div class="py-3">
+					<button class="btn btn-outline-info" type="submit">Edit</button>
+					<button class="btn btn-outline-info" type="reset">Reset</button>
+				</div>
+			</form>
+			<div class="border-top pt-3">
+				<small class="text-muted">
+					Don't want to edit post? <a class="ml-2" href="{% url 'home:home' %}">Cancel</a>
+				</small>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+{% endblock %}

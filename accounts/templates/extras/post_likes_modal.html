@@ -1,0 +1,58 @@
+{% if post.id %}
+<div class="modal fade text-center" id="post_likes_{{post.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+        	<div class="modal-header py-2">
+		        <h5 class="modal-title">Likes</h5>
+		        <a class="close" data-dismiss="modal" aria-label="Close">
+		          	<span aria-hidden="true">&times;</span>
+		        </a>
+		     </div>
+            <div class="modal-body modal-height text-left">
+				<ul class="list-unstyled mb-0">
+					{% for user in post.likes.all %}
+					<li class="mb-1">
+						<div class="media">
+							<img src="{{user.userprofile.image.url}}" alt="" class="rounded-circle mini-profile-pic">
+							<div class="media-body">
+								<div class="div-inline line-height-12">
+									{% if user in me.blocks %}
+									<span style="color:#222">{{user.username|truncatechars:18}}</span>
+									{% else %}
+									<a class="fw-55" href="{% url 'userprofile:view_profile_with_pk' pk=user.pk %}">
+										<span style="color:#222">{{user.username|truncatechars:18}}</span>
+									</a>
+									{% endif %}
+									<br>
+									<small class="text-muted">
+										{{user.get_full_name}}
+									</small>
+								</div>
+								{% if user != request.user %}
+								<div class="div-inline float-right">
+									{% if user in me.sent_requests %}
+									<a class="fw-55 float-right link-color" data-toggle="modal" data-target="#cancel_request_{{user.id}}">
+										<button class="btn btn-default btn-sm px-3"><span class="fw-55">Requested</span></button>
+									</a>
+									{% elif user in me.friends %}
+									<a data-toggle="modal" data-target="#remove_friend_{{user.id}}">
+										<button class="btn btn-default btn-sm px-3"><span class="fw-55">Friends </span><i class="very-small-icon fas fa-check"></i></button>
+									</a>
+									{% elif user not in me.friend_requests %}
+									<a data-toggle="modal" data-target="#send_request_{{user.id}}">
+										<button class="btn btn-primary btn-sm px-3"><span class="fw-55">Request</span></button>
+									</a>
+									{% endif %}
+								</div>
+								{% endif %}
+							</div>
+						</div>
+						{% include 'extras/friend_modals.html' %}
+					</li>
+				    {% endfor %}
+				</ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}

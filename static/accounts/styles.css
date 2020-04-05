@@ -1,0 +1,223 @@
+/**
+global css
+**/
+
+html {
+	position: relative;
+  	min-height: 100%;
+}
+
+body {
+  background: #fafafa;
+  margin-top: 5rem;
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+  font-size: 0.9rem;
+}
+
+p {
+	margin-bottom: 0.5rem;
+	line-height: 1.4;
+}
+
+legend {
+  font-size: 1.3rem;
+  color: lightslategrey;
+}
+
+a, a:hover, a:active {
+	text-decoration: none;
+	font-weight: 450;
+}
+
+.link-color {
+	color:#007bff;
+}
+
+.instabook-color {
+	color:#5f788a;
+}
+
+.lobster {
+	font-family: Lobster;
+}
+
+.small-text {
+	font-size: 12px;
+}
+
+.div-inline{
+    display:inline-block;
+}
+
+.div-block {
+	display: block;
+}
+
+.icon {
+	margin-right: 8px;
+	margin-left: 8px;
+	font-size: 16px;
+}
+
+.very-small-icon {
+	font-size: 10px;
+	color: grey;
+}
+
+/**
+content section-login, register, forms
+**/
+
+.content-section {
+  background: #ffffff;
+  padding: 10px 20px;
+  border: 1px solid #dddddd;
+  border-radius: 3px;
+  margin-bottom: 20px;
+}
+
+
+
+/***
+Navigation bar
+***/
+
+.bg-steel {
+  background-color: #5f788a;
+}
+
+.navbar {
+	padding: .25rem 1rem;
+}
+
+.navbar-collapse {
+	margin-right: 100px;
+}
+
+.navbar-brand {
+	padding: 0px;
+	font-size: 32px;
+	font-family:  'Lobster';
+	margin-left: 30px;
+}
+
+.nav-item {
+	margin-right: 10px;
+	margin-left: 10px;
+}
+
+.site-header .navbar-nav .nav-item .nav-link, .footer .container .footer-link {
+  color: #cbd5db;
+}
+
+.site-header .navbar-nav .nav-item .nav-link:hover, .footer .container .footer-link:hover {
+  color: #ffffff;
+}
+
+.site-header .navbar-nav .nav-item .nav-link.active, .footer .container .footer-link:active {
+  font-weight: 500;
+}
+
+
+/**
+Write a post Form on Home page
+and post card
+**/
+
+.form-control {
+	border-radius: 5px;
+	z-index: 1000;
+}
+
+.no-muted-text {
+	border: 0px;
+	background-color: #fafafa;
+}
+
+.card-header {
+  background-color: #5f788a;
+  color: #ffffff;
+}
+
+.card-body {
+	padding-bottom: 10px;
+	padding-top: 10px;
+}
+
+.card-footer {
+	font-size: 0.75rem;
+	padding-top:.5rem;
+	border-top: 0px;
+}
+
+
+/**
+ pictures
+**/
+
+img.rounded-circle.mini-profile-pic {
+	object-fit: cover;
+	width:30px;
+	height:30px;
+	margin-right: 10px;
+}
+
+.profile-thumbnail {
+	width: 100%;
+    padding-bottom: 100%;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 50%;
+}
+
+img.profile-page-profile-pic {
+	object-fit: cover;
+	width: 200px;
+	height: 200px;
+	display:block;
+    margin: 0 auto;
+    border:10px solid white;
+    outline: 1px solid rgb(200,200,200);
+}
+
+.card-text img {
+	object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+
+
+/**
+footer
+**/
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  line-height: 60px; /* Vertically center the text there */
+  background-color: #5f788a;
+  color: #cbd5db;
+}
+
+
+/**
+upload image button
+**/
+
+label[for="id_image"] {
+	background-color: #5f788a;
+    border: 1px solid rgba(156,156,156,0.7);
+    padding: 8px;
+    border-radius: 8px;
+    color: white;
+    font-weight: 500;
+    cursor: pointer;
+    margin: 10px;
+    /**change it later, maybe **/
+    display: none;
+}

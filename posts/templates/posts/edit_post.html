@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block head %}
+<title>Edit Post</title>
+{% endblock %}
+
+{% block body %}
+
+
+<div class="row justify-content-center">
+
+	<div class="col-md-6 px-2">
+
+		<form method="POST" class="media-body"  enctype="multipart/form-data">
+
+			<legend class="border-bottom mb-2">Edit Post
+				<span class="float-right small-text">
+					<a class="ml-2 " href="{% url 'posts:cancel_post_activity' previous_page=previous_page pk=post.pk %}">Cancel</a>
+				</span>
+			</legend>
+
+			{% if post.post_image %}
+			<a class="card-text" data-image-id="" data-toggle="modal" data-title="{{post.user.first_name}}'s photo"
+			               data-image="{{post.post_image.url}}"
+			               data-target="#display-post-picture-{{post.pk}}">
+			    <img class="mx-auto d-block post-pic" src="{{ post.post_image.url }}" alt="{{post.user.get_full_name}}">
+			</a>
+			{% endif %}
+
+			<div class="card border-right-0 border-top-0 bg-silver mb-4">
+
+				{% csrf_token %}
+				{{ form.post }}
+
+				<div class="form-row">
+					<div class="form-group col-12 my-1 px-2">
+						<button class="float-right btn-sm btn btn-info mx-1" type="submit"> Edit </button>
+						<button class="float-right btn-sm btn btn-info mx-1" type="reset"> Reset </button>
+						<a data-toggle="modal" data-target="#add-post-picture-{{user.pk}}">
+							<button type="button" class="mx-1 btn btn-info btn-sm">
+								{% if post.post_image %}
+								Change Photo 
+								{% else %}
+								Add Photo 
+								{% endif %}
+								<i class="fas fa-camera"></i>
+							</button>
+						</a>
+					</div>
+				</div>
+
+			{% include 'extras/picture_updation_modals.html' %}
+
+			</div>
+		</form>
+	</div>
+</div>
+
+{% endblock %}

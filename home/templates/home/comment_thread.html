@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load custom_filters %}
+
+{% block head %}
+<title>Comment Thread</title>
+{% endblock %}
+
+{% block body %}
+
+<div class="row justify-content-center">
+	<div class="col-md-6">
+
+		<div  id="top" class="mb-4 pr-3">
+			<small>
+				<a class="float-right" href="{% url 'home:view_post' pk=comment.object_id %}">Back to Post</a>
+			</small>
+
+		</div>
+
+		<hr>
+
+		<blockquote>
+			<div class="media">
+				<img src="{{comment.user.userprofile.image.url}}" alt="" class="rounded-circle mini-mini-profile-pic">
+				<div class="media-body">
+
+					<a class="post-header-name" href="{% url 'accounts:view_profile_with_pk' pk=comment.user.pk %}">
+						{{comment.user.get_full_name}}
+					</a>
+					<span> {{comment.content}} </span>
+					<div>
+						<small class="text-muted">
+							{{comment.timestamp|timesince|upto:','}} 
+						</small> 
+						<small class="text-muted">
+							| <a href="#">Reply</a> 
+						</small>
+						
+						{% if post.user == request.user  or comment.user == request.user %}
+						<small class="text-muted">
+						| <a class="link-color" data-toggle="modal" data-target="#deletecommentmodal_{{comment.id}}">
+							Delete
+						</a>
+						</small>
+						{% endif %}
+					</div>
+
+					<div>
+						<div class="card-body px-2">
+							<div class="media">
+								<img src="{{request.user.userprofile.image.url}}" alt="" class="rounded-circle mini-mini-profile-pic">
+								<div class="media-body">
+									<form method="POST" action="."> 
+										{% csrf_token %}
+										<div class="form-row">
+											<div class="col-10 mb-0">
+												{{ comment_form|crispy }}
+												<input type='hidden' name='parent_id' value='{{ comment.id }}'>
+											</div>
+											<div class="col-2 mb-0 px-0 text-center">
+												<input type='submit' value='Reply' class='link-color custom-button lobster'>
+											</div>
+										</div>
+									</form>
+									{% if comment.children.count %}
+										<div class="mb-2">
+											<small class="text-muted">
+												<a href="#" class="all-replies-btn">View all replies</a> ({{comment.children.count}})
+											</small>
+										</div>
+									{% endif %}
+								</div>
+							</div>
+						</div>
+
+						<div class="all-replies">
+							{% for child_comment in comment.children %}
+							<blockquote>
+								<div class="media">
+									<img src="{{comment.user.userprofile.image.url}}" alt="" class="rounded-circle mini-mini-profile-pic">
+									<div class="media-body">
+										<a href="{% url 'accounts:view_profile_with_pk' pk=comment.user.pk %}">
+											{{child_comment.user.get_full_name}}
+										</a>
+										<span> {{child_comment.content}} </span>
+										<div>
+											<small class="text-muted">
+												{{child_comment.timestamp|timesince|upto:','}} 
+											</small> 
+											<small class="text-muted">
+												| <a class="comment-reply-btn" href="#top">Reply</a> 
+											</small>
+											
+											{% if post.user == request.user  or child_comment.user == request.user %}
+											<small class="text-muted">
+											| <a class="link-color" data-toggle="modal" data-target="#deletereplymodal_{{child_comment.id}}">
+												Delete
+											</a>
+											</small>
+											{% endif %}
+										</div>
+									</div>
+								</div>
+								{% include 'home/delete_reply_modal.html' %}
+							</blockquote>
+							{% endfor %}
+						</div>
+					</div>
+				</div>
+			</div>
+			{% include 'home/delete_comment_modal.html' %}
+		</blockquote>
+	</div>
+</div>
+
+{% endblock %}

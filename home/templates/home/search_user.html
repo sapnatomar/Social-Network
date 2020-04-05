@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Search result for '{{user_name}}'</title>
+{% endblock %}
+
+{% block styling %}
+
+	@media screen and (max-width: 556px) {
+        body {
+          background-color: #ffffff;
+        }
+        .content-section {
+            box-shadow:none;
+            padding: 10px 15px;
+            border:none;
+            border-radius: 0px;
+            margin-bottom: 0px;
+        }
+      }
+
+{% endblock %}
+
+{% block body %}
+
+<div class="row justify-content-center">
+	<div class="col-md-6 p-0">
+		<div class="content-section pb-3">
+			{% if users_count %}
+			<p>{{users_count}} search {% if users_count == 1 %}result{% else %}results{% endif %} found for <i>"{{user_name}}"</i></p>
+				{% for user in users %}
+				<hr class="mt-2">
+				<div class="row">
+					<div class="col-2 pr-0">
+						<div class="profile-thumbnail" style="background-image:url('{{user.userprofile.image.url}}')"></div>
+					</div>
+					<div class="col-10 my-auto">
+
+						<div class="div-inline line-height-12">
+							<a class="fw-55" href="{% url 'userprofile:view_profile_with_pk' pk=user.pk %}">
+								<span style="color:#222">{{user.username|truncatechars:18}}</span>
+							</a><br>
+							<small class="text-muted">
+								{{user.get_full_name}}
+							</small>
+						</div>
+
+
+						{% if user != request.user %}
+						<div class="div-inline float-right">
+							{% if user in me.sent_requests %}
+							<a class="fw-55 float-right link-color" data-toggle="modal" data-target="#cancel_request_{{user.id}}">
+								<button class="btn btn-default btn-sm px-3"><span class="fw-55">Requested</span></button>
+							</a>
+							{% elif user in me.friends %}
+							<a data-toggle="modal" data-target="#remove_friend_{{user.id}}">
+								<button class="btn btn-default btn-sm px-3"><span class="fw-55">Friends </span><i class="very-small-icon fas fa-check"></i></button>
+							</a>
+							{% elif user not in me.friend_requests %}
+							<a data-toggle="modal" data-target="#send_request_{{user.id}}">
+								<button class="btn btn-primary btn-sm px-3"><span class="fw-55">Request</span></button>
+							</a>
+							{% endif %}
+						</div>
+						{% endif %}
+
+					</div>
+				</div>
+				{% include 'extras/friend_modals.html' %}
+				{% endfor %}
+
+			{% else %}
+				<p style="padding: 5px 10px; margin: 0.5rem 0rem">No search results found for "{{user_name}}"</p>
+			{% endif %}
+		</div>
+	</div>
+</div>
+
+<br><br><br>
+
+
+{% endblock %}

@@ -1,0 +1,69 @@
+
+<!-- remove friend model profile page-->
+	<div class="modal fade text-center" id="remove_friend_{{user.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	    <div class="modal-dialog modal-dialog-centered" role="document">
+	        <div class="modal-content text-center mx-auto" style="width: 400px;">
+	            <div class="modal-body pt-4">
+	                <img src="{{user.userprofile.image.url}}" alt="user.get_full_name" class="rounded-circle mini-profile-pic mr-0">
+	                <p class="mt-2">Unfriend <span class="fw-55">@{{user.username}}</span>?</p>
+	            </div>
+	            <div class="modal-footer py-2">
+	                <div class="row w-100">
+	                	<div class="col-6 border-right">
+	                		<a data-dismiss="modal">Cancel</a>
+	                	</div>
+	                	<div class="col-6">
+	                		<a href="{% url 'friends:remove-friend' id=user.id %}">Unfriend</a>
+	                	</div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+
+	<!-- cancel friend request model profile page-->
+	<div class="modal fade text-center" id="cancel_request_{{user.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	    <div class="modal-dialog modal-dialog-centered" role="document">
+	        <div class="modal-content text-center mx-auto" style="width: 400px;" >
+	            <div class="modal-body pt-4">
+	                <img src="{{user.userprofile.image.url}}" alt="{{user.get_full_name}}" class="rounded-circle mini-profile-pic mr-0">
+	                <p class="mt-2">Cancel Friend Request <span class="fw-55"></span>?</p>
+	            </div>
+	            <div class="modal-footer py-2">
+	                <div class="row w-100">
+	                	<div class="col-6 border-right">
+	                		<a data-dismiss="modal">Dismiss</a>
+	                	</div>
+	                	<div class="col-6">
+	                		<a href="{% url 'friends:cancel-request' id=user.id %}">Undo</a>
+	                	</div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+
+	<!-- sent friend request model profile page-->
+	<div class="modal fade text-center" id="send_request_{{user.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	    <div class="modal-dialog modal-dialog-centered" role="document">
+	        <div class="modal-content text-center mx-auto" style="width: 400px;">
+	            <div class="modal-body pt-4">
+	                <img src="{{user.userprofile.image.url}}" alt="{{user.get_full_name}}" class="rounded-circle mini-profile-pic mr-0">
+	                <p class="mt-2">Want to be friends with <span class="fw-55">@{{user.username}}</span>?</p>
+	            </div>
+	            <div class="modal-footer py-2">
+	                <div class="row w-100">
+	                	<div class="col-6 border-right">
+	                		<a data-dismiss="modal">Cancel</a>
+	                	</div>
+	                	<div class="col-6">
+	                		<a href="{% url 'friends:send-request' id=user.id  %}">Request</a>
+	                	</div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+
+
+

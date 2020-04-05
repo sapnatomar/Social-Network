@@ -1,0 +1,90 @@
+<div class="card mb-4">
+	<div class="media px-3 pt-3">
+		<img src="{{post.user.userprofile.image.url}}" alt="" class="rounded-circle mini-profile-pic">
+		<div class="media-body">
+				<div class="div-inline line-height-12">
+					<a class="post-header-name" href="{% url 'userprofile:view_profile_with_pk' pk=user.pk %}">
+						{{post.user.username}}
+					</a><br>
+					<small class="text-muted">
+
+						{{post.created|date:"F d, Y"}} at {{post.created|date:"H:i"}}
+						{% if post.updated|date:"Y,m,d,H,i" != post.created|date:"Y,m,d,H,i" %}
+						| Edited
+						{% endif %}
+
+					</small>
+				</div>
+
+				{% include 'posts/post_options.html' %}
+
+		</div>
+	</div>
+
+		{% include 'posts/post_content.html' %}
+
+	<div class="card-footer">
+		{% if request.user in post.likes.all %}
+		<a href="{% url 'posts:like_unlike_post' pk=post.pk operation='unlike' %}">
+			<button class="custom-button link-color">
+				<i class="far fa-thumbs-up"></i>
+			</button>
+		</a>
+		{% else %}
+		<a href="{% url 'posts:like_unlike_post' pk=post.pk operation='like' %}">
+			<button class="custom-button instabook-color">
+				<i class="far fa-thumbs-up"></i>
+			</button>
+		</a>
+		{% endif %}
+		
+		<a href="{% url 'posts:view_post' pk=post.pk %}#comments-section">
+			<button class="custom-button instabook-color">
+				<i class="far fa-comment"></i>
+			</button>
+		</a>
+		
+		<!--<a data-toggle="modal" data-target="#sharepostmodal_{{post.pk}}">-->
+			<button class="custom-button instabook-color">
+				<i class="far fa-share-square"></i>
+			</button>
+		<!--</a>-->
+
+	</div>
+
+	<div id="comments-section" class="px-4 mb-2">
+
+		{% if post.likes.count %}
+		<a id="" class="post-header-name" data-toggle="modal" data-target="#post_likes_{{post.id}}">
+			{% if request.user in post.likes.all %}
+			<span class="link-color">
+			{% else %}
+			<span class="instabook-color">
+			{% endif %}
+				{{post.likes.count}} 
+				{% if post.likes.count == 1 %}
+				Like
+				{% else %}
+				Likes
+				{% endif %}
+			</span>
+		</a>
+		{% else %}
+			<span class="instabook-color">Be the first to like it</span>
+		{% endif %}
+
+		{% if post.comments.count %}
+		<a class="float-right post-header-name" href="{% url 'posts:view_post' pk=post.pk %}#comments-section">
+			<span class="instabook-color">{{post.comments.count}} 
+				{% if post.comments.count == 1 %}
+				comment
+				{% else %}
+				comments
+				{% endif %}
+			</span>
+		</a>
+		{% endif %}
+
+	</div>
+
+</div>

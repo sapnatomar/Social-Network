@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block head %}
+<title>Instabook-login</title>
+{% endblock %}
+
+{% block content %}
+
+<div class="content-section">
+	<div class="w-100 text-center mb-3">
+		<h1 class="lobster instabook-color">Instabook</h1>
+		<h4 class="link-color">Sign in</h4>
+	</div>
+	<hr class="mb-1" width="60%" align="center">
+	<form method="POST">
+		{% csrf_token %}
+		<fieldset class="py-3">
+			{{ form|crispy }}
+		</fieldset>
+		<div class="pt-2 pb-4">
+			<button class="btn btn-primary" type="submit">Login</button>
+		</div>
+	</form>
+	<div class="border-top pt-2">
+		<small class="text-muted">
+			Need An Account? <a class="ml-2" href="{% url 'accounts:register' %}">Sign Up Now</a>
+		</small>
+	</div>
+</div>
+
+{% endblock %}

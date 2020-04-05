@@ -1,0 +1,169 @@
+{% extends 'base.html' %}
+
+{% block head %}
+	<title>{{user.first_name}}</title>
+{% endblock %}
+
+{% block body %}
+
+<div class="row justify-content-center">
+	
+	<div class="col-md-4">
+		<a class="thumbnail" data-image-id="" data-toggle="modal" data-title="{{user.first_name}}'s photo"
+                   data-image="{{user.userprofile.image.url}}"
+                   data-target="#display-profile-pic-{{user.pk}}">
+			<img class="mx-auto mb-3 mt-2 d-block profile-page-profile-pic" src="{{ user.userprofile.image.url }}" alt="{{user.get_full_name}}">
+		</a>
+	</div>
+
+	{% include 'accounts/picture_updation_modals.html' %}
+
+
+	<div class="col-md-6 mt-4">
+		<h4 class="lobster">
+		{{user.get_full_name}}
+		{% if user == request.user %}
+		<a href="{% url 'accounts:edit_profile' %}">
+		<span class="icon"><i class="fas fa-edit"></i></span>
+		</a>
+		{% endif %}
+		</h4>
+		<h6 class="instabook-color">@{{user.username}}</h6>
+		<p>{{user.userprofile.description}}</p>
+
+		{% if user == request.user %}
+
+		<div class="text-center">
+<!--
+		<a data-toggle="modal" data-target="#followers_{{user.pk}}">
+			<button class="btn btn-info btn-md" style="margin-right: 12px;">Followers</button>
+		</a>
+		<a data-toggle="modal" data-target="#following_{{user.pk}}">
+			<button class="btn btn-info btn-md" style="margin-left: 12px;">Following</button>
+		</a>
+-->
+		{% endif %}
+
+		</div>
+
+	</div>
+</div>
+
+<div class="row justify-content-center mt-4">
+
+	<div class="col-md-4">
+		
+
+		<div class="card  mb-4">
+			<h5 class="card-header">
+				<span class="follow-suggestions icon"><i class="fas fa-globe-americas"></i></i></span>
+				Intro
+			</h5>
+
+			<div class="card-body">
+
+				<ul class="list-unstyled mb-0">
+					{% if user.userprofile.education %}
+					<li class="small-text">
+						{% if user.userprofile.graduated %}
+						Studied {% else %}
+						Studies {% endif %}
+						at <span class="link-color lobster">{{user.userprofile.education}}</span>
+					</li>
+					{% endif %}
+
+					{% if user.userprofile.company %}
+					<li class="small-text">
+						{% if user.userprofile.still_work_here %}
+						Works {% else %}
+						Worked {% endif %}
+						at <span class="link-color lobster">{{user.userprofile.company}}</span>
+					</li>
+					{% endif %}
+
+					{% if user.userprofile.hometown %}
+					<li class="small-text">
+						From <span class="link-color">{{user.userprofile.hometown}}</span>
+					</li>
+					{% endif %}
+
+					{% if user.userprofile.current_city %}
+					<li class="small-text">
+						Lives in <span class="link-color">{{user.userprofile.current_city}}</span>
+					</li>
+					{% endif %}
+
+					{% if user.email %}
+					<li class="small-text">
+						Mail me <span class="link-color">{{user.email}}</span>
+					</li>
+					{% endif %}
+
+					{% if user.userprofile.website %}
+					<li class="small-text">
+						Check this out <span class="link-color">
+							<a href="{{user.userprofile.website}}">{{user.userprofile.website}}</a>
+						</span>
+					</li>
+					{% endif %}
+
+					{% if user.userprofile.gender %}
+					<li class="small-text">
+						Gender <span class="link-color">
+							{{user.userprofile.gender}}
+						</span>
+					</li>
+					{% endif %}
+
+				</ul>
+
+			</div>
+		</div>
+
+
+		<div class="card mb-4">
+			<h5 class="card-header">
+				<span class="follow-suggestions icon"><i class="fas fa-user-friends"></i></span>
+				Friends
+			</h5>
+
+			<div class="card-body">
+				<p class="small-text">
+				{% if user == request.user %}
+					You are not eligible for Friends feature yet!
+				{% else %}
+					No Friends to display.
+				{% endif %}
+				</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-6 profile-content-section">
+
+		{% if not posts %}
+
+		<div class="card mb-4">
+			<div class="card-body">
+				<p class="small-text">
+				{% if user == request.user %}
+					You haven't posted anything yet! <br>
+					Why not create one? <a href="{% url 'home:home' %}">Click here</a> to write your first post.
+				{% else %}
+					No posts to display.
+				{% endif %}
+				</p>
+
+			</div>
+		</div>
+
+		{% else %}
+			{% for post in posts %}
+				{% include "home/list_posts.html" %}
+			{% endfor %}
+		{% endif %}
+
+	</div><!-- /.col-md-8 -->
+</div>
+
+{% endblock %}

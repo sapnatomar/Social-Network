@@ -1,0 +1,383 @@
+/**
+global css
+**/
+
+html {
+	position: relative;
+  	min-height: 100%;
+}
+
+body {
+  background: #fafafa;
+  margin-top: 5rem;
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+  font-size: 0.9rem;
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+@media only screen and (max-width: 500px) {
+  body {
+    margin-top: 4rem;
+  }
+}
+
+p {
+	margin-bottom: 0.5rem;
+	line-height: 1.4;
+}
+
+legend {
+  font-size: 1.3rem;
+  color: lightslategrey;
+}
+
+.big-font {
+  font-size: 1.5rem;
+}
+
+.med-font {
+  font-size: 1.2rem;
+}
+
+a, a:hover, a:active {
+	text-decoration: none;
+	font-weight: 450;
+  color:#007bff;
+  cursor: pointer !important;
+}
+
+.line-height-12 {
+  line-height: 1.2;
+}
+
+.fw-55 {
+  font-weight: 550 !important;
+  font-family: Arial,x-locale-body,sans-serif;
+}
+
+.color-inherit {
+  color:inherit;
+}
+
+.post-header-name, .post-header-name:active, .post-header-name:hover {
+  font-weight:500;
+}
+
+.link-color {
+	color:#007bff !important;
+}
+
+.instabook-color {
+	color:#5f788a;
+}
+
+.lobster {
+	font-family: Lobster;
+}
+
+.small-text {
+	font-size: 12px;
+}
+
+.div-inline{
+    display:inline-block;
+}
+
+.div-block {
+	display: block;
+}
+
+.icon {
+	margin-right: 8px;
+	margin-left: 8px;
+	font-size: 16px;
+}
+
+.very-small-icon {
+	font-size: 10px;
+}
+
+
+.custom-button, .custom-buttom:active, .custom-button:hover, .custom-button:focus {
+  background-color: inherit;
+  border-color: white;
+  border:none;
+  min-height: 40px;
+  min-width: 40px;
+  padding: 0px;
+}
+
+.bg-silver {
+  background-color: rgba(0,0,0,.05) !important;
+}
+
+.alert {
+  padding-right: 2rem;
+}
+
+.modal-height {
+  max-height: 192px;
+  overflow-y: auto;
+}
+
+/**
+content section-login, register, forms
+**/
+
+.content-section {
+  box-shadow: 0 4px 6px rgba(0,0,0,.2);
+  background: #ffffff;
+  padding: 10px 20px;
+  border: 1px solid #dddddd;
+  border-radius: 3px;
+  margin-bottom: 20px;
+}
+
+
+.dropdown-menu {
+  position: absolute;
+  top: 100% !important;
+  right: 0px !important;
+  left: auto !important;
+  transform: translate3d(0px, 0px, 0px) !important;
+  will-change: transform;
+  min-width: 8rem;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+
+/** network **/
+
+.network {
+  max-height:238px;
+  overflow-y: auto;
+}
+
+
+
+/***
+Navigation bar
+***/
+
+.btn-outline-secondary {
+  color:#ffffff;
+  border-color: #ffffff;
+}
+
+.btn-outline-secondary:hover, .btn-outline-secondary:active, .btn-outline-secondary:focus {
+  color:#5f788a;
+  background-color: #cbd5db;
+  border-color: #5f788a;
+}
+
+.btn-outline-secondary:not(:disabled):not(.disabled):active {
+    color: #5f788a;
+    background-color: #cbd5db;
+    border-color: #5f788a;
+}
+
+.btn-default, .btn-default:hover, .btn-default:active, .btn-default:focus, .btn-default:not(:disabled):not(.disabled):active {
+  background-color: #ffffff;
+  border: 1px solid rgba(0,0,0,.125);
+  border-radius: 5px;
+}
+
+.bg-steel {
+  background-color: #5f788a;
+}
+
+.navbar {
+	padding: .25rem 1rem;
+  box-shadow: 0 8px 6px -6px #999;
+}
+
+.navbar-brand {
+	padding: 0px;
+	font-size: 32px;
+	font-family:  'Lobster';
+}
+
+.nav-item {
+	margin-right: 5px;
+	margin-left: 5px;
+  font-size: 1.2rem;
+}
+
+@media (max-width: 992px) {
+  .home-sidebar {
+    display: none;
+  }
+}
+
+@media (min-width: 768px) {
+  .navbar-expand-md .navbar-nav {
+    margin-left: auto !important;
+  }
+}
+
+@media screen and (max-width: 768px) {
+ .navbar-expand-md .navbar-nav .nav-link {
+    padding: 3px 10px;
+    margin-left: 0px !important;
+  }
+  .navbar-expand-md .navbar-nav {
+    margin-right: 0px !important;
+  }
+  .search-bar, .home-sidebar {
+    display: none;
+  }
+}
+
+.navbar-expand-md .navbar-nav {
+    flex-direction: row;
+  }
+
+.site-header .navbar-nav .nav-item .nav-link {
+  color: #cbd5db;
+  font-weight: 500;
+}
+
+.site-header .navbar-nav .nav-item .nav-link:hover, .site-header .navbar-nav .nav-item .nav-link:active {
+  border-bottom: 3px solid;
+  color: #ffffff;
+}
+
+/**
+Write a post Form on Home page
+and post card
+**/
+
+.form-group {
+  margin-bottom: 0.3rem;
+}
+
+.custom-textarea {
+  border-radius: 0px;
+}
+
+.card {
+  box-shadow: 0 4px 6px rgba(0,0,0,.2);
+  border-left:0px;
+}
+
+.card-header {
+  background-color: #5f788a;
+  color: #ffffff;
+}
+
+.card-body {
+	padding: 1rem 1.25rem;
+}
+
+.card-footer {
+  background-color: rgba(256,256,256,0.95);
+	font-size: 1.2rem;
+  border-top:0px;
+  padding: 0.3rem 1rem;
+}
+
+
+/**
+ pictures
+**/
+
+img.rounded-circle.mini-profile-pic {
+	object-fit: cover;
+	width:40px;
+	height:40px;
+	margin-right: 10px;
+}
+
+img.rounded-circle.mini-mini-profile-pic {
+  object-fit: cover;
+  width:35px;
+  height:35px;
+  margin-right: 10px;
+}
+
+.profile-thumbnail {
+	width: 100%;
+    padding-bottom: 100%;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 50%;
+}
+
+
+img.profile-page-profile-pic {
+  box-shadow: 6px 6px 2px #999;
+	object-fit: cover;
+	width: 200px;
+	height: 200px;
+	display:block;
+  margin: 0 auto;
+  border:10px solid white;
+  outline: 1px solid rgb(200,200,200);
+}
+
+.card-text img {
+	object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+
+
+/**
+footer
+**/
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  line-height: 60px; /* Vertically center the text there */
+}
+
+.footer-link:active, .footer-link:hover, .footer-link:focus, .footer-link {
+  background: #5f788a;
+  color: #fff;
+  font-weight: 700;
+}
+
+@media screen and (max-width: 480px) {
+  footer {
+    display: none;
+  }
+  .space-between {
+    display: none;
+  }
+}
+
+
+/**
+upload image button
+**/
+
+label[for="id_image"] {
+	background-color: #5f788a;
+    border: 1px solid rgba(156,156,156,0.7);
+    padding: 8px;
+    border-radius: 8px;
+    color: white;
+    font-weight: 500;
+    cursor: pointer;
+    margin: 10px;
+    /**change it later, maybe **/
+    display: none;
+}
+
+/** view post styles **/
+
+.comment-reply, .all-replies, #sent-requests {
+  display: none;
+}
+
+.comment-form {
+  border-radius: 20px;
+}
+

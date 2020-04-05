@@ -1,0 +1,40 @@
+
+
+<!-- profile actions modal -->
+<div class="modal fade text-center" id="profile_actions_{{user.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <p class="border-bottom"><a data-toggle="modal" data-target="#block_user_{{user.id}}" >Block</a></p>
+                <p class="border-bottom"><a style="color:inherit;" href="">Send Message</a></p>
+                <p class="border-bottom mb-0"><a data-dismiss="modal">Cancel</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- block user modal -->
+	<div class="modal fade text-center" id="block_user_{{user.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	    <div class="modal-dialog modal-dialog-centered" role="document">
+	        <div class="modal-content text-center mx-auto" style="width: 400px;">
+	            <div class="modal-body pt-4">
+	                <img src="{{user.userprofile.image.url}}" alt="user.get_full_name" class="rounded-circle mini-profile-pic mr-0">
+	                {% if user in me.friends %}
+	                <p class="mt-2">Are you sure you want to block <span class="fw-55">@{{user.username}}</span>? This will unfriend the user.</p>
+	                {% else %}
+	                <p class="mt-2">Are you sure you want to block <span class="fw-55">@{{user.username}}</span>?</p>
+	                {% endif %}
+	            </div>
+	            <div class="modal-footer py-2">
+	                <div class="row w-100">
+	                	<div class="col-6 border-right">
+	                		<a data-dismiss="modal">Cancel</a>
+	                	</div>
+	                	<div class="col-6">
+	                		<a href="{% url 'friends:block_user' id=user.id %}">Block</a>
+	                	</div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
