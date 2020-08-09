@@ -26,7 +26,6 @@ var/
 
 #public
 media/
-migrations/
 
 # Pipfile
 Pipfile
