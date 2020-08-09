@@ -1,7 +1,7 @@
 
 # Social Network
 Social-Network is a simple social networking application with features like posting photos, adding likes and comments (much like facebook).\
-I've currently named it 'Instabook' (yes, that's combination of Instagram and Facebook, as I couldn't come up with any creative title), though open to suggestions!
+It's currently titled 'Instabook' (yes, that's combination of Instagram and Facebook, as I couldn't come up with some creative title), though open to suggestions!
 
 # Technology Stack
 
@@ -32,7 +32,7 @@ Make sure you are inside Social-Network directory before proceeding with followi
 ```python manage.py migrate```
 
 * Start the web server by running ```python manage.py runserver```\
-Now, open your web browser and enter this address: ```http://127.0.0.1:8000/``` to see the website up and running.
+Now, open your web browser and enter ```http://127.0.0.1:8000/``` to see the website up and running.
 
 
 # References
